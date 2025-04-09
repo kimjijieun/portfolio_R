@@ -1,0 +1,29 @@
+$mobile: 767px; //320
+$tablet: 1023px; //768
+$desktop: 1280px; //1024기준 (중형 데스크탑)
+$desktop2: 1440px; //대형 데스크탑
+
+/*반응형, 브라우저 크기가 767px 이하일때*/
+@mixin mobile(){
+    @media (max-width:$mobile) {
+        @content;
+    }
+}
+/*반응형, 브라우저 크기가 768이상, 1023px 이하일때*/
+@mixin tablet(){
+    @media (max-width:$tablet) {
+        @content;
+    }
+}
+/*반응형, 브라우저 크기가 1024px 이상일때*/
+@mixin desktop2(){
+    @media (max-width:$desktop2) {
+        @content;
+    }
+}
+//1162px
+@mixin desktop(){
+    @media (max-width:$desktop) {
+        @content;
+    }
+}

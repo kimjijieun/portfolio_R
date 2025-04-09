@@ -1,0 +1,319 @@
+body {
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        background: rgba(222, 222, 222, .75);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, .5);
+        border-radius: 4px;
+    }
+
+    &.hidden {
+        overflow: hidden;
+    }
+}
+
+.main {
+    background: $main-color;
+    z-index: 2;
+    position: relative;
+}
+
+.blind,
+.hide {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    margin: -1px;
+}
+
+.cursor {
+    position: fixed;
+    top: -1vw;
+    left: 0.3rem;
+    font-size: 1.1vw;
+    color: $main-color;
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-weight: 500;
+
+    @include desktop{font-size: 2.1vw;}
+
+    &.on {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &.spell1 {
+        left: 0.83rem;
+
+        @include desktop{left: 1.2rem;}
+    }
+
+    &.spell2 {
+        left: 1.27rem;
+
+        @include desktop{left: 2rem;}
+    }
+
+    &.spell3 {
+        left: 1.7rem;
+
+        @include desktop{left: 2.7rem;}
+    }
+
+    &.spell4 {
+        left: 2.35rem;
+
+        @include desktop{left: 3.8rem;}
+    }
+
+    &.spell5 {
+        left: 2.8rem;
+
+        @include desktop{left: 4.6rem;}
+    }
+
+    &.spell6 {
+        left: 3.2rem;
+
+        @include desktop{left: 5.22rem;}
+    }
+
+    &.spell7 {
+        left: 3.6rem;
+
+        @include desktop{left: 5.9rem;}
+    }
+}
+
+.common-inner {
+    width: 100%;
+    height: 100%;
+    padding: 0 2vw;
+
+    @include mobile{
+        padding: 0 5vw;
+    }
+}
+
+.loding-page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #413B34;
+    z-index: 999;
+
+    .logo-text{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+        color: #ecece4;
+        font-size: 8.5rem;
+        text-transform: uppercase;
+        line-height: 0.975;
+        letter-spacing: 0.3rem;
+        z-index: 9;
+        box-sizing: border-box;
+        justify-content: center;
+        font-family: $En-font;
+        @include desktop2{
+            font-size: 8rem;
+        }
+        @include desktop{
+            padding: 2rem;
+        }
+
+        @include tablet{
+            padding: 3rem;
+        }
+        @include mobile{
+            display: none;
+        }
+
+        .t {
+            transform: translateX(47vw);
+        }
+
+        .fo {
+            transform: translate(-46vw, 55vh);
+            @include desktop2{
+                transform: translate(-46vw, 66vh);
+            }
+            @include desktop{
+                transform: translate(-44vw, 64vh);
+            }
+        }
+
+        .lio {
+            transform: translateY(55vh);
+            @include desktop2{
+                transform: translateY(66vh);
+            }
+            @include desktop{
+                transform: translateY(64vh);
+            }
+        }
+    }
+    .m-logo-text{
+        display: none;
+        position: fixed;
+        justify-content: center;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 3vw;
+        color: #ecece4;
+        font-size: 8.2rem;
+        text-transform: uppercase;
+        line-height: 0.975;
+        letter-spacing: 0.3rem;
+        z-index: 2;
+
+        @include desktop{
+            display: none;
+        }
+        @include tablet{
+        display: none;
+        }
+        @include mobile{
+        display: flex;
+        }
+
+    }
+    .info-txt {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #ecece4;
+        font-size: 0.8rem;
+        line-height: 1.2;
+        opacity: 1;
+        z-index: 1;
+        font-family: 'PP_Hatton';
+
+        @include desktop{
+            font-size: 1rem;
+        }
+        @include mobile{
+            font-size: 2rem;
+            line-height: 1.3;
+        }
+    }
+}
+
+
+.sc-title {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    gap: 1vw;
+    flex-direction: column;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    font-size: clamp(2rem, 2.16vw, 4rem);
+    font-family: $En-font;
+    letter-spacing: -0.07rem;
+
+    @include tablet{
+        font-size: 2.5rem;
+    }
+    @include mobile{
+        margin-bottom: 8rem;
+        gap: 4vw;
+        font-size: 3rem;
+    }
+
+    .dash {
+        content: "";
+        display: block;
+        width: .06rem;
+        height: 12vw;
+
+        @include tablet{
+            height: 16vw;
+        }
+        @include mobile{
+            height: 24vw;
+        }
+        
+
+        .line{
+            display: block;
+            width: 1px;
+            height: 0;
+            background: #484036;
+        }
+    }
+
+    .t-title{
+        overflow: hidden;
+    }
+}
+
+.btn {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .btn-fill {
+        position: absolute;
+        width: 150%;
+        height: 200%;
+        border-radius: 50%;
+        background-color: #f94e3d;
+        top: -50%;
+        left: -25%;
+        transform: scale(1, 0);
+        opacity: 0;
+        transition: opacity 1s, transform 0.5s;
+        transform-origin: top;
+    }
+
+    .btn-txt {
+        padding: 0 1em;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 9;
+    }
+
+    &:hover .btn-fill {
+        transform-origin: bottom;
+        transform: scale(1, 1);
+        opacity: 1;
+        transition: transform 0.5s;
+    }
+}
+
+.project-item {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.3rem;
+}
