@@ -3,27 +3,7 @@ $(function(){
 
     gsap.registerPlugin(ScrollTrigger);
     gsap.registerPlugin(ScrollToPlugin);
-    
-    
-    /* lenis 스크롤 스무스 */
-    // const lenis = new Lenis();
-    
-    // lenis.on("scroll", (e) => {
-    //   console.log(e);
-    // });
-    
-    // function raf(time) {
-    //   lenis.raf(time);
-    //   requestAnimationFrame(raf);
-    // }
-    
-    // requestAnimationFrame(raf);
-    // lenis.stop();
-    
-    // $(function () {
-    //   $("html, body").animate({ scrollTop: 0 }, "slow");
-    // });
-    
+
     
     // lenis
     const lenis = new Lenis();
@@ -40,8 +20,8 @@ $(function(){
     });
     
     
-    const introTl = gsap.timeline();
-    const MintroTl = gsap.timeline();
+    const introTl = gsap.timeline({delay: 1.2});
+    const MintroTl = gsap.timeline({delay: 1.2});
   
     ScrollTrigger.matchMedia({
       "(max-width:767px)":function(){
