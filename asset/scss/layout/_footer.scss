@@ -1,8 +1,8 @@
 .footer {
-    position: sticky;
-    bottom: 0;
+    // position: sticky;
+    bottom: -50%;
+    // z-index: -1;
     width: 100%;
-    z-index: 1;
     font-family: $En-font;
 
     .common-inner {
@@ -10,7 +10,7 @@
         flex-direction: column;
         color: #ecece4;
         justify-content: center;
-        background: #ACB4B8;
+        background: $main-black;
         height: 100vh;
     }
 
@@ -36,8 +36,8 @@
             font-weight: 400;
             font-weight: 600;
             line-height: 1;
-            border-bottom: 1px solid $main-brown;
-            color: $main-brown;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
             padding-bottom: 9vh;
             display: block;
 
@@ -67,7 +67,7 @@
             line-height: 0.9;
 
             border-radius: 50%;
-            background: #FF6F61;
+            background: $point-color2;
             border: 0;
             color: #fff;
             font-weight: 500;
@@ -94,7 +94,9 @@
                 font-size: 2rem;
                 bottom: -27%;
             }
-
+            .btn-fill{
+                background: $point-color;
+            }
             .btn-txt {
                 @include tablet {
                     padding: 0 0.5rem;
@@ -203,6 +205,14 @@
                 }
 
             }
+        }
+    }
+
+    .f_video{
+        video{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
 }

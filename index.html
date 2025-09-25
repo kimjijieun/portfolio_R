@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ji_Eun portfolio</title>
-    <link rel="icon" href="./asset/images/favicon.ico">
+    <!-- <link rel="icon" href="./asset/images/favicon.ico"> -->
 
     <link rel="stylesheet" href="./asset/css/style.css">
     <link rel="icon" href="./asset/images/favicon.png">
@@ -21,26 +21,26 @@
     <script defer src="./asset/js/gsap.js"></script>
 </head>
 <body>
-    <div class="loding-page">
-        <div class="logo-text">
-            <span class="por">por</span>
-            <span class="t">t</span>
-            <span class="fo">fo</span>
-            <span class="lio">lio</span>
-        </div>
-
-        <div class="m-logo-text">
-            <span class="port">port</span>
-            <span class="folio">folio</span>
-        </div>
-
-        <div class="info-txt">
-            <span>web publisher</span>
-            <span>code by kim ji eun</span>
-        </div>
-    </div>
     <div class="wrap">
-
+        <div class="loding-page">
+            <div class="logo-text">
+                <span class="por">por</span>
+                <span class="t">t</span>
+                <span class="fo">fo</span>
+                <span class="lio">lio</span>
+            </div>
+    
+            <div class="m-logo-text">
+                <span class="port">port</span>
+                <span class="folio">folio</span>
+            </div>
+    
+            <div class="info-txt">
+                <span>web publisher</span>
+                <span>code by kim ji eun</span>
+            </div>
+            <div class="pan-box"><div class="pan"></div></div>
+        </div>
 
         <header class="header">
 
@@ -78,6 +78,7 @@
                         <li class="social-item"><a href="https://velog.io/@kimjiji_0" target="_blank">Velog</a></li>
                     </ul>
                 </div>
+                <div class="pan-box"><div class="pan"></div></div>
             </div>
 
         </header>
@@ -85,13 +86,37 @@
         <main class="main">
             <section class="sc-intro" id="home">
                 <h2 class="blind">메인정보</h2>
-
-                <figure class="video-wrap">
-                    <video muted preload="metadata" playsinline autoplay loop class="video"
-                        poster="./asset/images/contents/s_main_vd_2.jpg">
-                        <source src="./asset/videos/s_main_vd.mp4" type="video/mp4">
-                    </video>
-                </figure>
+                <div class="intro-img">
+                    <div id="img_sequence">
+                        <canvas id="screen"></canvas>
+                    </div>
+                </div>
+                <div class="intro-tag">
+                    <i class="ic-arrow">
+                        <svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
+                            <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="Artboard2" transform="translate(-1019.000000, -279.000000)" stroke="#af6005" stroke-width="2">
+                                    <g id="arrow-up-right" transform="translate(1026.000000, 286.000000) rotate(90.000000) translate(-1026.000000, -286.000000) translate(1020.000000, 280.000000)">
+                                        <polyline id="Path" points="2.76923077 0 12 0 12 9.23076923"></polyline>
+                                        <line x1="12" y1="0" x2="0" y2="12" id="Path2"></line>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </i>
+                    <span>Inquisitive</span>
+                    <span>Web Publisher</span>
+                </div>
+                <div class="tit-txt">
+                    <span class="tit">[A glimpse into my personality]</span>
+                    <!-- <p>My spontaneous and witty nature allows me to think on my feet, while my enthusiastic spirit ensures I tackle challenges with a positive mindset.</p> -->
+                    <span>dramatic -</span>
+                    <span>eloquent -</span>
+                    <span>witty -</span>
+                    <span>spontaneous -</span>
+                    <span>enthusiastic -</span>
+                    <span>inquisitive</span>
+                </div>
             </section>
             <!-- About -->
             <section class="sc-about" id="about">
@@ -234,7 +259,7 @@
                                 </div>
                                 <div class="m-photo">
                                     <a href="https://kimjijieun.github.io/enterprise/" target="_blank">
-                                        <div class="video-box item_box">
+                                        <div class="video-box item-box">
                                             <video loop="" autoplay="" muted="" playsinline="" data-object-fit="cover" class="item"><source src="./asset/videos/enter_m.mp4"></video>
                                         </div>
                                     </a>
@@ -257,7 +282,7 @@
                                 </div>
                                 <div class="m-photo">
                                     <a href="https://kimjijieun.github.io/macBook/" target="_blank">
-                                        <div class="video-box item_box">
+                                        <div class="video-box item-box">
                                             <video loop="" autoplay="" muted="" playsinline="" data-object-fit="cover" class="item"><source src="./asset/videos/maxbook_m.mp4"></video>
                                         </div>
                                     </a>
@@ -281,7 +306,7 @@
                                 </div>
                                 <div class="m-photo">
                                     <a href="https://kimjijieun.github.io/BD/" target="_blank">
-                                        <div class="item_box">
+                                        <div class="item-box">
                                             <img src="./asset/images/contents/Barcelona_bg.jpg.png" alt="" class="item">
                                         </div>
                                     </a>
@@ -305,7 +330,7 @@
                                 </div>
                                 <div class="m-photo">
                                     <a href="https://kimjijieun.github.io/earthfoam/" target="_blank">
-                                        <div class="item_box">
+                                        <div class="item-box">
                                             <img src="./asset/images/contents/Earthfoam.png" alt="" class="item">
                                         </div>
                                     </a>
@@ -373,7 +398,7 @@
                                 <p class="txt-desc txt-desc-top">JSON 비동기 통신을 이용해 데이터를 바인딩해 클론코딩한 모바일 사이트입니다.
                                 </p>
                                 <div class="item-box">
-                                    <img src="./asset/images/contents/kakao.png" alt="카카오웹툰">
+                                    <img class="item" src="./asset/images/contents/kakao.png" alt="카카오웹툰">
                                 </div>
                                 <div class="txt-ani">
                                     <div class="txt-ani-box">
@@ -415,7 +440,7 @@
                                     IR기법 사용으로 웹 접근성에 초점을 맞추고, TAB키로도 이동이 가능한 클론코딩 사이트입니다
                                 </p>
                                 <div class="item-box">
-                                    <img src="./asset/images/contents/seoul_city.png" alt="">
+                                    <img class="item" src="./asset/images/contents/seoul_city.png" alt="">
                                 </div>
                                 <div class="txt-ani">
                                     <div class="txt-ani-box">
@@ -520,6 +545,9 @@
                                             <span>#Mobile</span>
                                         </div>
                                     </div>
+                                    <i class="arrow">
+                                        <img src="./asset/images/contents/arrow.svg" alt="">
+                                    </i>
                                 </a>
                             </li>
                             <li class="content-item">
@@ -533,6 +561,9 @@
                                             <span>#Mobile</span>
                                         </div>
                                     </div>
+                                    <i class="arrow">
+                                        <img src="./asset/images/contents/arrow.svg" alt="">
+                                    </i>
                                 </a>
                             </li>
                             <li class="content-item">
@@ -546,6 +577,9 @@
                                             <span>#Mobile</span>
                                         </p>
                                     </div>
+                                    <i class="arrow">
+                                        <img src="./asset/images/contents/arrow.svg" alt="">
+                                    </i>
                                 </a>
                             </li>
                             <li class="content-item">
@@ -560,85 +594,21 @@
                                             <span>#Mobile</span>
                                         </p>
                                     </div>
+                                    <i class="arrow">
+                                        <img src="./asset/images/contents/arrow.svg" alt="">
+                                    </i>
                                 </a>
                             </li>
 
                         </ul>
                     </div>
                 </div>
-            </section>
-            <!-- To Learn -->
-            <section class="sc-learn" id="study">
-                <div class="sc-title">
-                    <span class="dash">
-                        <span class="line"></span>
-                    </span>
-                    <h2 class="t-title">TO STUDY</h2>
-                </div>
-                <div class="slider">
-                    <ul class="slider-list">
-                        <li class="slider-item">
-                            <div class="slide-top">
-                                <div class="slide-img-box"> <img src="./asset/images/contents/gsap.png" alt="슬라이드 이미지"> </div>
-                            </div>
-            
-                            <div class="slide-bottom">
-                                <h3 class="slide-title">Gsap</h3>
-                                <p>
-                                    GSAP는 화려하고 인터랙티브한 화면을 쉽고 빠르게 만들 수 있는 강력한 도구입니다. 앞으로 GSAP의 다양한 기능을 익혀 복잡한 애니메이션도 효율적으로 구현하고 프로젝트에 적극 활용할 수 있도록 꾸준히 학습하겠습니다.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="slider-item">
-                            <div class="slide-top">
-                                <div class="slide-img-box"> <img src="./asset/images/contents/vanilla-js.png" alt="슬라이드 이미지"> </div>
-                            </div>
-            
-                            <div class="slide-bottom">
-                                <h3 class="slide-title">Vanilla JS</h3>
-                                <p>React, Vue.js 등 JavaScript 프레임워크/라이브러리 기초 이해를 위해 Udemy에서 바닐라 JavaScript 강의를 수강하고, jQuery로 작업했던 프로젝트를 JavaScript로 똑같이 구현하는 것을 목표로 하고 있습니다.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="slider-item">
-                            <div class="slide-top">
-                                <div class="slide-img-box"> <img src="./asset/images/contents/three.js.png" alt="슬라이드 이미지"> </div>
-                            </div>
-            
-                            <div class="slide-bottom">
-                                <h3 class="slide-title">Three.js & Canvas</h3>
-                                <p>인터랙티브한 화면을 위해 Three.js 강의를 통해 웹 브라우저에서 3D 그래픽을 렌더링하기 위해 사용되는 JavaScript 3D 라이브러리 Three.js를 학습하고 있습니다.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="slider-item">
-                            <div class="slide-top">
-                                <div class="slide-img-box"> <img src="./asset/images/contents/react.jpeg" alt="슬라이드 이미지"> </div>
-                            </div>
-            
-                            <div class="slide-bottom">
-                                <h3 class="slide-title">REACT</h3>
-                                <p>프론트엔드 개발자로 성장하기 위해 React는 필수적인 기술이라고 생각합니다.
-                                현재의 웹 개발 스킬을 더욱 향상시키고 사용자에게 편리하고 직관적인 웹 경험을 제공하는 개발자가 되겠습니다.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="slider-item">
-                            <div class="slide-top">
-                                <div class="slide-img-box"> <img src="./asset/images/contents/typescript.png" alt="슬라이드 이미지"> </div>
-                            </div>
-            
-                            <div class="slide-bottom">
-                                <h3 class="slide-title">TypeScript</h3>
-                                <p>React 프로젝트의 안정성과 가독성, 코드 품질을 높이기 위해 TypeScript를 학습하고, 그 장점을 활용하여 높은 퀄리티의 React 프로젝트를 만들어가도록 하겠습니다.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
 
-                <p class="desc">JavaScript 프레임워크, 라이브러리, CSS4와 같은 새로운 웹 기술들을 빠르게 학습하고 사용자 경험에 대한 최신 트렌드를 한발 앞서서 받아들이는 퍼블리셔가 되고자 합니다.</p>
-
+                <div class="pan-wrap">
+                    <div class="pan-box">
+                        <i class="pan"></i>
+                    </div>
+                </div>
             </section>
         </main>
 
