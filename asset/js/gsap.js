@@ -233,50 +233,106 @@ $(function () {
 //이미지 스크롤 고정
   const canvas = document.getElementById('screen');
   const context = canvas.getContext('2d');
-  const img = new Image();
-  const frameCount = 10; // 총 프레임 개수 (0~10)
+const frameCount = 10; // 총 프레임 개수 (0~10)
+  const images = [];      // 로드된 이미지 객체를 저장할 배열
+  let imagesLoaded = false; // 이미지 로드 완료 상태 플래그
 
-  // 캔버스 크기를 부모 요소에 맞춤
+// 뷰포트 너비에 따라 이미지 경로를 결정하는 함수
+  function getImagePath(frameNum) {
+    const width = window.innerWidth;
+
+    if (width <= 767) {
+      // 모바일 (767px 이하)
+      return `./asset/images/sequence/mobile/selfImg_frame${frameNum}.png`; 
+    } else {
+      // PC/태블릿 (768px 이상)
+      return `./asset/images/sequence/pc/selfImg_frame${frameNum}.png`;
+    }
+  }
+
+function preloadImages(callback) {
+    images.length = 0; // 배열 초기화 (리사이즈 등 상황에 대비)
+    let loadedCount = 0;
+    const totalFrames = frameCount + 1;
+
+    for (let i = 0; i <= frameCount; i++) {
+      const img = new Image();
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === totalFrames) {
+          imagesLoaded = true;
+          if (callback) callback();
+        }
+      };
+      // 현재 뷰포트 크기에 맞는 경로의 이미지만 로드
+      img.src = getImagePath(i); 
+      images.push(img);
+    }
+  }
+
+  // 2. 캔버스 크기를 부모 요소에 맞춤
   function resizeCanvas() {
     const parent = document.getElementById('img_sequence');
-    canvas.width = parent.clientWidth;
-    canvas.height = parent.clientHeight;
+    if (parent) {
+      canvas.width = parent.clientWidth;
+      canvas.height = parent.clientHeight;
+    }
   }
 
-  // 특정 프레임 불러오기
+  // 3. 특정 프레임을 캔버스에 그리기
   function player(num) {
-    img.src = `./asset/images/sequence/selfImg_frame${num}.png`;
-  }
+    if (!imagesLoaded) return; // 이미지가 모두 로드되지 않았으면 그리지 않음
 
-  // 이미지 로드되면 그리기
-  img.addEventListener('load', () => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(img, 0, 0, canvas.width, canvas.height);
-  });
+    const frame = images[num];
+    if (frame && frame.complete) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      // 이미 로드된 객체를 사용하여 실시간 리사이징 부하를 줄임
+      context.drawImage(frame, 0, 0, canvas.width, canvas.height);
+    }
+  }
 
   // GSAP ScrollTrigger
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: ".sc-intro",
-      start: "top top",
-      end: "+=1000", 
-      scrub: true,
-      pin: true,
-      onUpdate: (self) => {
-        const frameIndex = Math.floor(self.progress * frameCount);
-        player(frameIndex);
+  if (canvas) {
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".sc-intro",
+        start: "top top",
+        end: "+=1000",
+        scrub: true,
+        pin: true,
+        onUpdate: (self) => {
+          const frameIndex = Math.floor(self.progress * frameCount);
+          player(frameIndex);
+        },
+        // 이미지가 로드되지 않은 상태에서 스크롤 트리거가 동작하는 것을 방지하기 위해
+        // 이미지 로드 완료 후 refresh를 호출하여 활성화하는 것이 좋습니다.
       }
-    }
-  });
+    });
+  }
 
-  // 초기 실행
+
+  // 초기 실행 및 리사이즈 대응
   window.addEventListener('load', () => {
     resizeCanvas();
-    player(0); // 첫 프레임
+    // 이미지 로드 후, 초기 프레임을 그리고 ScrollTrigger를 활성화합니다.
+    preloadImages(() => {
+        player(0); // 첫 프레임 그리기
+        ScrollTrigger.refresh(true); // 이미지 로드 후 ScrollTrigger 갱신
+    });
   });
 
-  // 리사이즈 대응
-  window.addEventListener('resize', resizeCanvas);
+  // 리사이즈 대응: 창 크기가 바뀔 때 캔버스 크기 조정 및 이미지 세트 변경
+  window.addEventListener('resize', () => {
+    // 캔버스 크기 재조정
+    resizeCanvas(); 
+    // 이미지 경로가 바뀌었을 수 있으므로, 이미지를 다시 로드합니다. (이 부분은 성능에 부하를 줄 수 있으므로 주의해서 사용해야 합니다.)
+    // 또는 PC/모바일 분기점(767px)을 지날 때만 페이지를 새로고침하도록 유도하는 것도 한 방법입니다.
+    // 여기서는 간단히 리로드하여 대응합니다.
+    preloadImages(() => {
+        player(0); // 첫 프레임 다시 그리기
+        ScrollTrigger.refresh(true); 
+    });
+  });
 
 
 
