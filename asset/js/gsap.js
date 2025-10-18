@@ -231,108 +231,157 @@ $(function () {
   });
 
 //이미지 스크롤 고정
-  const canvas = document.getElementById('screen');
-  const context = canvas.getContext('2d');
-const frameCount = 10; // 총 프레임 개수 (0~10)
-  const images = [];      // 로드된 이미지 객체를 저장할 배열
-  let imagesLoaded = false; // 이미지 로드 완료 상태 플래그
+const canvas = document.getElementById('screen');
+const context = canvas.getContext('2d');
+const frameCount = 10;
+const images = [];
+let imagesLoaded = false;
+
+// 로딩 진행률 표시 (선택사항)
+function updateLoadingProgress(current, total) {
+  const progress = Math.round((current / total) * 100);
+  console.log(`이미지 로딩 중: ${progress}%`);
+  // 로딩바가 있다면 업데이트
+  // document.querySelector('.loading-bar').style.width = progress + '%';
+}
 
 // 뷰포트 너비에 따라 이미지 경로를 결정하는 함수
-  function getImagePath(frameNum) {
-    const width = window.innerWidth;
-
-    if (width <= 767) {
-      // 모바일 (767px 이하)
-      return `./asset/images/sequence/mobile/selfImg_frame${frameNum}.png`; 
-    } else {
-      // PC/태블릿 (768px 이상)
-      return `./asset/images/sequence/pc/selfImg_frame${frameNum}.png`;
-    }
+function getImagePath(frameNum) {
+  const width = window.innerWidth;
+  if (width <= 767) {
+    return `./asset/images/sequence/mobile/selfImg_frame${frameNum}.png`; 
+  } else {
+    return `./asset/images/sequence/pc/selfImg_frame${frameNum}.png`;
   }
+}
 
+// ⭐ 개선된 preloadImages: 첫 프레임을 먼저 로드
 function preloadImages(callback) {
-    images.length = 0; // 배열 초기화 (리사이즈 등 상황에 대비)
-    let loadedCount = 0;
-    const totalFrames = frameCount + 1;
+  images.length = 0;
+  imagesLoaded = false;
+  let loadedCount = 0;
+  const totalFrames = frameCount + 1;
+  let firstFrameLoaded = false;
 
-    for (let i = 0; i <= frameCount; i++) {
-      const img = new Image();
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === totalFrames) {
-          imagesLoaded = true;
-          if (callback) callback();
-        }
-      };
-      // 현재 뷰포트 크기에 맞는 경로의 이미지만 로드
-      img.src = getImagePath(i); 
-      images.push(img);
+  // 첫 번째 프레임을 우선 로드
+  const firstImg = new Image();
+  firstImg.onload = () => {
+    images[0] = firstImg;
+    loadedCount++;
+    updateLoadingProgress(loadedCount, totalFrames);
+    
+    if (!firstFrameLoaded) {
+      firstFrameLoaded = true;
+      player(0); // 첫 프레임 즉시 표시
+      // 로딩 화면 숨기기 (있다면)
+      // document.querySelector('.loding-page').style.opacity = '0';
     }
-  }
-
-  // 2. 캔버스 크기를 부모 요소에 맞춤
-  function resizeCanvas() {
-    const parent = document.getElementById('img_sequence');
-    if (parent) {
-      canvas.width = parent.clientWidth;
-      canvas.height = parent.clientHeight;
+    
+    if (loadedCount === totalFrames) {
+      imagesLoaded = true;
+      if (callback) callback();
     }
-  }
+  };
+  firstImg.src = getImagePath(0);
 
-  // 3. 특정 프레임을 캔버스에 그리기
-  function player(num) {
-    if (!imagesLoaded) return; // 이미지가 모두 로드되지 않았으면 그리지 않음
-
-    const frame = images[num];
-    if (frame && frame.complete) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      // 이미 로드된 객체를 사용하여 실시간 리사이징 부하를 줄임
-      context.drawImage(frame, 0, 0, canvas.width, canvas.height);
-    }
-  }
-
-  // GSAP ScrollTrigger
-  if (canvas) {
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: ".sc-intro",
-        start: "top top",
-        end: "+=1000",
-        scrub: true,
-        pin: true,
-        onUpdate: (self) => {
-          const frameIndex = Math.floor(self.progress * frameCount);
-          player(frameIndex);
-        },
-        // 이미지가 로드되지 않은 상태에서 스크롤 트리거가 동작하는 것을 방지하기 위해
-        // 이미지 로드 완료 후 refresh를 호출하여 활성화하는 것이 좋습니다.
+  // 나머지 프레임 로드 (1~10)
+  for (let i = 1; i <= frameCount; i++) {
+    const img = new Image();
+    img.onload = () => {
+      loadedCount++;
+      updateLoadingProgress(loadedCount, totalFrames);
+      
+      if (loadedCount === totalFrames) {
+        imagesLoaded = true;
+        console.log('모든 이미지 로드 완료!');
+        if (callback) callback();
       }
-    });
+    };
+    img.onerror = () => {
+      console.error(`이미지 로드 실패: frame ${i}`);
+      loadedCount++;
+    };
+    img.src = getImagePath(i);
+    images[i] = img;
   }
+}
 
+// 캔버스 크기를 부모 요소에 맞춤
+function resizeCanvas() {
+  const parent = document.getElementById('img_sequence');
+  if (parent) {
+    canvas.width = parent.clientWidth;
+    canvas.height = parent.clientHeight;
+  }
+}
 
-  // 초기 실행 및 리사이즈 대응
-  window.addEventListener('load', () => {
+// 특정 프레임을 캔버스에 그리기
+function player(num) {
+  const frame = images[num];
+  if (frame && frame.complete) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(frame, 0, 0, canvas.width, canvas.height);
+  }
+}
+
+// GSAP ScrollTrigger
+let scrollTriggerInstance;
+if (canvas) {
+  scrollTriggerInstance = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".sc-intro",
+      start: "top top",
+      end: "+=1000",
+      scrub: true,
+      pin: true,
+      onUpdate: (self) => {
+        const frameIndex = Math.floor(self.progress * frameCount);
+        player(frameIndex);
+      }
+    }
+  });
+}
+
+// 초기 실행
+window.addEventListener('load', () => {
+  resizeCanvas();
+  preloadImages(() => {
+    ScrollTrigger.refresh(true);
+  });
+});
+
+// 리사이즈 대응
+let resizeTimer;
+let previousWidth1 = window.innerWidth;
+
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  
+  resizeTimer = setTimeout(() => {
+    const currentWidth = window.innerWidth;
+    const wasDesktop = previousWidth1 > 767;
+    const isDesktop = currentWidth > 767;
+    
     resizeCanvas();
-    // 이미지 로드 후, 초기 프레임을 그리고 ScrollTrigger를 활성화합니다.
-    preloadImages(() => {
-        player(0); // 첫 프레임 그리기
-        ScrollTrigger.refresh(true); // 이미지 로드 후 ScrollTrigger 갱신
-    });
-  });
-
-  // 리사이즈 대응: 창 크기가 바뀔 때 캔버스 크기 조정 및 이미지 세트 변경
-  window.addEventListener('resize', () => {
-    // 캔버스 크기 재조정
-    resizeCanvas(); 
-    // 이미지 경로가 바뀌었을 수 있으므로, 이미지를 다시 로드합니다. (이 부분은 성능에 부하를 줄 수 있으므로 주의해서 사용해야 합니다.)
-    // 또는 PC/모바일 분기점(767px)을 지날 때만 페이지를 새로고침하도록 유도하는 것도 한 방법입니다.
-    // 여기서는 간단히 리로드하여 대응합니다.
-    preloadImages(() => {
-        player(0); // 첫 프레임 다시 그리기
-        ScrollTrigger.refresh(true); 
-    });
-  });
+    
+    // 모바일↔PC 전환 시에만 이미지 재로드
+    if (wasDesktop !== isDesktop) {
+      console.log('디바이스 전환 감지, 이미지 재로드...');
+      preloadImages(() => {
+        ScrollTrigger.refresh(true);
+      });
+    } else {
+      // 같은 디바이스 내에서는 현재 프레임만 다시 그리기
+      const currentFrame = Math.floor(
+        (scrollTriggerInstance?.scrollTrigger?.progress || 0) * frameCount
+      );
+      player(currentFrame);
+      ScrollTrigger.refresh(true);
+    }
+    
+    previousWidth = currentWidth;
+  }, 200);
+});
 
 
 
