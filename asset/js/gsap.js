@@ -246,7 +246,7 @@ const frameCount = 10; // 총 프레임 개수 (0~10)
       return `./asset/images/sequence/mobile/selfImg_frame${frameNum}.webp`; 
     } else {
       // PC/태블릿 (768px 이상)
-      return `./asset/images/sequence/pc/selfImg_frame${frameNum}.png`;
+      return `./asset/images/sequence/pc/selfImg_frame${frameNum}.webp`;
     }
   }
 
@@ -291,7 +291,7 @@ function preloadImages(callback) {
     }
   }
 
-  // GSAP ScrollTrigger
+  // GSAP ScrollTrigger널 체크(Null Check)
   if (canvas) {
     gsap.timeline({
       scrollTrigger: {
