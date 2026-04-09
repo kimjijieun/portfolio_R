@@ -281,7 +281,7 @@ function preloadImages(callback) {
 
   // 3. 특정 프레임을 캔버스에 그리기
   function player(num) {
-    if (!imagesLoaded) return; // 이미지가 모두 로드되지 않았으면 그리지 않음
+    // if (!imagesLoaded) return; // 이미지가 모두 로드되지 않았으면 그리지 않음
 
     const frame = images[num];
     if (frame && frame.complete) {
@@ -290,6 +290,12 @@ function preloadImages(callback) {
       context.drawImage(frame, 0, 0, canvas.width, canvas.height);
     }
   }
+
+  resizeCanvas();
+  preloadImages(() => {
+    player(0);
+    ScrollTrigger.refresh(true);
+  });
 
   // GSAP ScrollTrigger널 체크(Null Check)
   if (canvas) {
@@ -312,14 +318,14 @@ function preloadImages(callback) {
 
 
   // 초기 실행 및 리사이즈 대응
-  window.addEventListener('load', () => {
-    resizeCanvas();
-    // 이미지 로드 후, 초기 프레임을 그리고 ScrollTrigger를 활성화합니다.
-    preloadImages(() => {
-        player(0); // 첫 프레임 그리기
-        ScrollTrigger.refresh(true); // 이미지 로드 후 ScrollTrigger 갱신
-    });
-  });
+  // window.addEventListener('load', () => {
+  //   resizeCanvas();
+  //   // 이미지 로드 후, 초기 프레임을 그리고 ScrollTrigger를 활성화합니다.
+  //   preloadImages(() => {
+  //       player(0); // 첫 프레임 그리기
+  //       ScrollTrigger.refresh(true); // 이미지 로드 후 ScrollTrigger 갱신
+  //   });
+  // });
 
   // 리사이즈 대응: 창 크기가 바뀔 때 캔버스 크기 조정 및 이미지 세트 변경
   window.addEventListener('resize', () => {
